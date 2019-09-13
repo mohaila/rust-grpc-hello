@@ -1,22 +1,21 @@
 use std::thread;
 
-use rust_grpc_hello::hellosvc_grpc::*;
 use rust_grpc_hello::hellosvc::*;
+use rust_grpc_hello::hellosvc_grpc::*;
 
 struct HelloSvcImpl;
 
 impl HelloSvc for HelloSvcImpl {
-    fn hello(&self,
-    _m: grpc::RequestOptions,
-    req: HelloRequest,)
-    -> grpc::SingleResponse<HelloResponse> {
+    fn hello(
+        &self,
+        _m: grpc::RequestOptions,
+        req: HelloRequest,
+    ) -> grpc::SingleResponse<HelloResponse> {
         let mut res = HelloResponse::new();
 
-        println!("received hello request from {}", 
-            req.get_name()
-        );
+        println!("received hello request from {}", req.get_name());
 
-        let message = "Hello ".to_string() + &req.get_name();
+        let message = "Hello ".to_string() + req.get_name();
         res.set_message(message);
         grpc::SingleResponse::completed(res)
     }
@@ -31,5 +30,5 @@ fn main() {
 
     loop {
         thread::park();
-    }    
+    }
 }
