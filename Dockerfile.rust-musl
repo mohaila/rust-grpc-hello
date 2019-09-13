@@ -1,0 +1,7 @@
+FROM alpine:3.10
+RUN apk add --no-cache rust cargo git build-base protobuf && \
+    mkdir /build
+VOLUME /build
+WORKDIR /build
+ENV RUSTFLAGS="-C target-feature=+crt-static"
+CMD  ["cargo", "build", "--target", "x86_64-alpine-linux-musl", "--release"]
